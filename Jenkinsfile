@@ -11,40 +11,38 @@ pipeline {
                 }
             }
         }
-        stage('Push to Docker Hub') {
-            when {
-                expression {
-                    env.BRANCH_NAME != null && env.BRANCH_NAME.toLowerCase() == 'dev'
-                }
-            }
-            steps {
-                script {
-                    echo 'Pushing to Docker Hub repository: gowthamsharoon/dev'
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
-                        echo 'Logged in to Docker Hub'
-                        docker.image('gowthamsharoon/dev').push('latest')
-                    }
-                    echo 'Pushed to Docker Hub'
-                }
-            }
+stage('Push to Docker Hub') {
+    when {
+        expression {
+            env.BRANCH_NAME == 'dev'
         }
-        stage('Push to Prod Docker Hub') {
-            when {
-                expression {
-                    env.BRANCH_NAME != null && env.BRANCH_NAME.toLowerCase() == 'master'
-                }
+    }
+    steps {
+        script {
+            echo 'Pushing to Docker Hub repository: gowthamsharoon/dev'
+            docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                echo 'Logged in to Docker Hub'
+                docker.image('gowthamsharoon/dev').push('latest')
             }
-            steps {
-                script {
-                    echo 'Pushing to Docker Hub repository: gowthamsharoon/prod'
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
-                        echo 'Logged in to Docker Hub'
-                        docker.image('gowthamsharoon/prod').push('latest')
-                    }
-                    echo 'Pushed to Docker Hub'
-                }
-            }
+            echo 'Pushed to Docker Hub on Dev'
         }
     }
 }
 
+stage('Push to Docker Hub') {
+    when {
+        expression {
+            env.BRANCH_NAME == 'master'
+        }
+    }
+    steps {
+        script {
+            echo 'Pushing to Docker Hub repository: gowthamsharoon/prod'
+            docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                echo 'Logged in to Docker Hub'
+                docker.image('gowthamsharoon/prod').push('latest')
+            }
+            echo 'Pushed to Docker Hub on prod'
+        }
+    }
+}
