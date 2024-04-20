@@ -28,22 +28,19 @@ pipeline {
                 }
             }
         }
-
         stage('Push to Docker Hub Prod') {
-            when {
-                branch 'master'
-            }
             steps {
                 script {
-                    echo 'Pushing to Docker Hub repository: ' + PROD_IMAGE_NAME
+                    echo 'Pushing to Docker Hub repository: gowthamsharoon/prod'
                     docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
                         echo 'Logged in to Docker Hub'
-                        docker.image(PROD_IMAGE_NAME).push('latest')
+                        docker.image('gowthamsharoon/prod').push('latest')
                     }
                     echo 'Pushed to Docker Hub on prod'
                 }
             }
         }
+
     }
 }
 
