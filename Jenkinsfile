@@ -12,11 +12,6 @@ pipeline {
             }
         }
         stage('Push to Docker Hub Dev') {
-            when {
-                expression {
-                    env.BRANCH_NAME == 'dev'
-                }
-            }
             steps {
                 script {
                     echo 'Pushing to Docker Hub repository: gowthamsharoon/dev'
@@ -30,11 +25,6 @@ pipeline {
         }
 
         stage('Push to Docker Hub Prod') {
-            when {
-                expression {
-                    env.BRANCH_NAME == 'master'
-                }
-            }
             steps {
                 script {
                     echo 'Pushing to Docker Hub repository: gowthamsharoon/prod'
