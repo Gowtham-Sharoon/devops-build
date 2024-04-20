@@ -14,15 +14,20 @@ pipeline {
         stage('Push to Docker Hub') {
             when {
                 expression {
-                    return env.BRANCH_NAME == 'master'
+                    return env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'master'
                 }
             }
             steps {
                 script {
-                    echo 'Pushing to Docker Hub...'
+                    def dockerRepo = 'gowthamsharoon/dev'
+                    if (env.BRANCH_NAME == 'master') {
+                        dockerRepo = 'gowthamsharoon/prod'
+                    }
+
+                    echo "Pushing to Docker Hub repository: $dockerRepo"
                     docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
                         echo 'Logged in to Docker Hub'
-                        docker.image('gowthamsharoon/dev').push('latest')
+                        docker.image(dockerRepo).push('latest')
                     }
                     echo 'Pushed to Docker Hub'
                 }
