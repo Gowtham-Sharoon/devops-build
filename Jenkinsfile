@@ -11,10 +11,7 @@ pipeline {
                 }
             }
         }
-        stage('Push to Docker Hub') {
-            when {
-                branch 'dev'
-            }
+        stage('Push to Docker Hub Dev') {
             steps {
                 script {
                     echo 'Pushing to Docker Hub repository: gowthamsharoon/dev'
@@ -22,14 +19,12 @@ pipeline {
                         echo 'Logged in to Docker Hub'
                         docker.image('gowthamsharoon/dev').push('latest')
                     }
-                    echo 'Pushed to Docker Hub'
+                    echo 'Pushed to Docker Hub on Dev'
                 }
             }
         }
-        stage('Push to Prod Docker Hub') {
-            when {
-                branch 'master'
-            }
+
+        stage('Push to Docker Hub Prod') {
             steps {
                 script {
                     echo 'Pushing to Docker Hub repository: gowthamsharoon/prod'
@@ -37,9 +32,10 @@ pipeline {
                         echo 'Logged in to Docker Hub'
                         docker.image('gowthamsharoon/prod').push('latest')
                     }
-                    echo 'Pushed to Docker Hub'
+                    echo 'Pushed to Docker Hub on prod'
                 }
             }
         }
     }
 }
+
