@@ -13,7 +13,9 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                branch 'dev'
+                expression {
+                    env.BRANCH_NAME.toLowerCase() == 'dev'
+                }
             }
             steps {
                 script {
@@ -28,7 +30,9 @@ pipeline {
         }
         stage('Push to Prod Docker Hub') {
             when {
-                branch 'master'
+                expression {
+                    env.BRANCH_NAME.toLowerCase() == 'master'
+                }
             }
             steps {
                 script {
