@@ -19,9 +19,12 @@ pipeline {
             }
             steps {
                 script {
+                    echo 'Pushing to Docker Hub...'
                     docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                        echo 'Logged in to Docker Hub'
                         docker.image('gowthamsharoon/dev').push('latest')
                     }
+                    echo 'Pushed to Docker Hub'
                 }
             }
         }
