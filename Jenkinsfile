@@ -13,7 +13,9 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                branch 'master'
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
             }
             steps {
                 script {
