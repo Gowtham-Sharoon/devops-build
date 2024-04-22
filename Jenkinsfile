@@ -22,8 +22,9 @@ pipeline {
         }
         stage('Push to Docker Hub Prod') {
             when {
-                branch 'master'
-            }
+                expression {
+                     true
+                }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', '53fef10a-8c6e-4667-a3d2-a3b0e3c25a34') {
