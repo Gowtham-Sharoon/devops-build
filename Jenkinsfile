@@ -4,7 +4,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build("guvi-app-prod")
+                    // No need to build the image here since it's already built in build.sh
+                    // docker.build("guvi-app-prod")
                 }
             }
         }
@@ -30,7 +31,9 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', '53fef10a-8c6e-4667-a3d2-a3b0e3c25a34') {
-                        docker.image('guvi-app-prod').tag('guvi-app-prod', 'gowthamsharoon/prod:latest')
+                        // Tag the image correctly
+                        docker.image('guvi-app-prod').tag('gowthamsharoon/prod:latest')
+                        // Push the tagged image
                         docker.image('gowthamsharoon/prod:latest').push()
                     }
                     echo 'Pushed to Docker Hub on Prod repo'
