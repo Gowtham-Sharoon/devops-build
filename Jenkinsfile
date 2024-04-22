@@ -23,7 +23,9 @@ pipeline {
         }
         stage('Push to Docker Hub Prod') {
             when {
-                branch 'master'
+                expression {
+                    true
+                }
             }
             steps {
                 script {
