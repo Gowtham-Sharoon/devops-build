@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Build') {
             steps {
@@ -9,7 +8,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Push to Docker Hub Dev') {
             when {
                 branch 'dev'
@@ -23,7 +21,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push to Docker Hub Prod') {
             when {
                 branch 'master'
@@ -37,7 +34,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push to Docker Hub Prod') {
             steps {
                 script {
