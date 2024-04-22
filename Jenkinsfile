@@ -12,7 +12,7 @@ pipeline {
             parallel {
                 stage('Deploy to Dev') {
                     when {
-                        branch 'dev'
+                        expression { env.BRANCH_NAME == 'dev' }
                     }
                     steps {
                         script {
@@ -22,7 +22,7 @@ pipeline {
                 }
                 stage('Deploy to Prod') {
                     when {
-                        branch 'master'
+                        expression { env.BRANCH_NAME == 'master' }
                     }
                     steps {
                         script {
@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                branch 'master'
+                expression { env.BRANCH_NAME == 'master' }
             }
             steps {
                 script {
