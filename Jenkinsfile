@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        CURRENT_BRANCH = "${env.BRANCH_NAME}"
+    }
     stages {
         stage('Build') {
             steps {
@@ -12,23 +15,21 @@ pipeline {
             parallel {
                 stage('Deploy to Dev') {
                     when {
-                        branch 'dev'  // Run this stage only if the branch is 'dev'
-                        expression {true}
+                        expression { CURRENT_BRANCH == 'dev' }
                     }
                     steps {
                         script {
-                            sh 'sh deploy-dev.sh'  // Run the deploy-dev.sh script for the 'dev' branch
+                            sh 'sh deploy-dev.sh'
                         }
                     }
                 }
                 stage('Deploy to Prod') {
                     when {
-                        branch 'master'  // Run this stage only if the branch is 'master'
-                        expression {true}
+                        expression { CURRENT_BRANCH == 'master' }
                     }
                     steps {
                         script {
-                            sh 'sh deploy-prod.sh'  // Run the deploy-prod.sh script for the 'master' branch
+                            sh 'sh deploy-prod.sh'
                         }
                     }
                 }
@@ -36,8 +37,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                branch 'master'  // Run this stage only if the branch is 'master'
-                expression {true}
+                expression { CURRENT_BRANCH == 'master' }
             }
             steps {
                 script {
