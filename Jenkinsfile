@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        CURRENT_BRANCH = "${env.BRANCH_NAME}"
-    }
     stages {
         stage('Build') {
             steps {
@@ -15,7 +12,7 @@ pipeline {
             parallel {
                 stage('Deploy to Dev') {
                     when {
-                        expression { CURRENT_BRANCH == 'dev' }
+                        branch 'dev'
                     }
                     steps {
                         script {
@@ -25,7 +22,7 @@ pipeline {
                 }
                 stage('Deploy to Prod') {
                     when {
-                        expression { CURRENT_BRANCH == 'master' }
+                        branch 'master'
                     }
                     steps {
                         script {
@@ -37,7 +34,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                expression { CURRENT_BRANCH == 'master' }
+                branch 'master'
             }
             steps {
                 script {
