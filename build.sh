@@ -5,7 +5,7 @@ service docker restart
 
 # Docker login
 # Consider using a credential helper or environment variables for secure login
-sudo docker login -u gowthamsharoon -p SHArj84KMF#
+sudo docker login -u gowthamsharoon -p SHArj84KMF# docker.io
 
 # Build the Docker image
 sudo docker build -t guvi-app-prod .

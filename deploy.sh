@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sudo docker pull gowthamsharoon/prod
-sudo docker stop guvi-app-prd
-sudo docker rm guvi-app-prod
+#sudo docker stop guvi-app-prod
+#sudo docker rm guvi-app-prod
 sudo docker run -d -p 80:80 --name guvi-app gowthamsharoon/prod
 
 
