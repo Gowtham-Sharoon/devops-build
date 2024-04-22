@@ -5,20 +5,32 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def dockerImage = 'guvi-app-prod'
-                    sh "docker build -t $dockerImage ."
-                    // Check if the build was successful
-                    if (sh(script: "docker images $dockerImage", returnStatus: true) != 0) {
-                        error 'Docker build failed'
+                    docker.build("guvi-app-prod")
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub Dev') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', '53fef10a-8c6e-4667-a3d2-a3b0e3c25a34') {
+                        docker.image('guvi-app-prod').push('dev')
                     }
                 }
             }
         }
+
         stage('Push to Docker Hub Prod') {
+            when {
+                branch 'master'
+            }
             steps {
                 script {
-                    withDockerRegistry([credentialsId: 'DOCKERHUB_CREDENTIALS', url: 'https://index.docker.io/v1/']) {
-                        sh "docker push gowthamsharoon/prod:latest"
+                    docker.withRegistry('https://index.docker.io/v1/', '53fef10a-8c6e-4667-a3d2-a3b0e3c25a34') {
+                        docker.image('guvi-app-prod').push('prod')
                     }
                 }
             }
