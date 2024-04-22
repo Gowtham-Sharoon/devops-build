@@ -11,10 +11,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == 'dev') {
+                    if (env.BRANCH_NAME == 'dev') {
                         echo 'Deploying to Dev...'
                         sh 'sh deploy-dev.sh'
-                    } else if (env.GIT_BRANCH == 'master') {
+                    } else if (env.BRANCH_NAME == 'master') {
                         echo 'Deploying to Prod...'
                         sh 'sh deploy-prod.sh'
                     } else {
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             when {
-                expression { env.GIT_BRANCH == 'master' }
+                expression { env.BRANCH_NAME == 'master' }
             }
             steps {
                 script {
