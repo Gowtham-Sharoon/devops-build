@@ -11,6 +11,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+		    println "Current branch: ${env.BRANCH_NAME}"
                     if (env.BRANCH_NAME == 'dev') {
                         echo 'Deploying to Dev...'
                         sh 'sh deploy-dev.sh'
