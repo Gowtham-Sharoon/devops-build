@@ -13,6 +13,7 @@ pipeline {
                 stage('Deploy to Dev') {
                     when {
                         branch 'dev'  // Run this stage only if the branch is 'dev'
+                        expression {true}
                     }
                     steps {
                         script {
@@ -23,6 +24,7 @@ pipeline {
                 stage('Deploy to Prod') {
                     when {
                         branch 'master'  // Run this stage only if the branch is 'master'
+                        expression {true}
                     }
                     steps {
                         script {
@@ -35,6 +37,7 @@ pipeline {
         stage('Push to Docker Hub') {
             when {
                 branch 'master'  // Run this stage only if the branch is 'master'
+                expression {true}
             }
             steps {
                 script {
