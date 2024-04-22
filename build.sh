@@ -11,9 +11,9 @@ sudo docker login -u gowthamsharoon -p SHArj84KMF# docker.io
 sudo docker build -t guvi-app-prod .
 
 # Tag the built image correctly
-sudo docker tag guvi-app-prod gowthamsharoon/prod
+docker tag guvi-app-prod gowthamsharoon/prod:latest
 
 # Push the tagged image to Docker Hub
 #sudo docker push gowthamsharoon/prod:latest
-sudo docker push gowthamsharoon/prod
+sudo docker push gowthamsharoon/prod:latest
 

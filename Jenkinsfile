@@ -30,7 +30,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', '53fef10a-8c6e-4667-a3d2-a3b0e3c25a34') {
-                        docker.image('guvi-app-prod').push('gowthamsharoon/prod')
+                        docker.image('guvi-app-prod').tag('guvi-app-prod', 'gowthamsharoon/prod:latest')
+                        docker.image('gowthamsharoon/prod:latest').push()
                     }
                     echo 'Pushed to Docker Hub on Prod repo'
                 }
