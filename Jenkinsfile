@@ -8,28 +8,17 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Dev and Prod') {
-            parallel {
-                stage('Deploy to Dev') {
-                    when {
-                        expression { env.BRANCH_NAME == 'dev' }
-                    }
-                    steps {
-                        script {
-                            echo 'Deploying to Dev...'
-                            sh 'sh deploy-dev.sh'
-                        }
-                    }
-                }
-                stage('Deploy to Prod') {
-                    when {
-                        expression { env.BRANCH_NAME == 'master' }
-                    }
-                    steps {
-                        script {
-                            echo 'Deploying to Prod...'
-                            sh 'sh deploy-prod.sh'
-                        }
+        stage('Deploy') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'dev') {
+                        echo 'Deploying to Dev...'
+                        sh 'sh deploy-dev.sh'
+                    } else if (env.BRANCH_NAME == 'master') {
+                        echo 'Deploying to Prod...'
+                        sh 'sh deploy-prod.sh'
+                    } else {
+                        echo 'Branch not recognized, skipping deployment'
                     }
                 }
             }
