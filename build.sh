@@ -15,5 +15,5 @@ docker tag guvi-app-prod gowthamsharoon/prod:latest
 
 # Push the tagged image to Docker Hub
 #sudo docker push gowthamsharoon/prod:latest
-sudo docker push gowthamsharoon/prod:latest
+#sudo docker push gowthamsharoon/prod:latest
 
